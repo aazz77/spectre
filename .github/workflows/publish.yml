@@ -10,32 +10,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  check:
-    name: Check (${{ matrix.target }})
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        target:
-          - x86_64-unknown-linux-gnu
-          - aarch64-linux-android
-          - armv7-linux-androideabi
-          - x86_64-linux-android
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
-
-      - uses: Swatinem/rust-cache@v2
-        with:
-          key: ${{ matrix.target }}
-
-      # cargo check 不需要 NDK 链接器，足以验证 Android 上能否编译通过
-      - name: cargo check
-        run: cargo check --lib --target ${{ matrix.target }}
-
   publish:
     name: Publish
     needs: check
@@ -56,6 +30,8 @@ jobs:
             echo "::error::Tag v$TAG_VERSION does not match Cargo.toml version $CRATE_VERSION"
             exit 1
           fi
+      
+      -run: cargo check
 
       - name: Dry run
         run: cargo publish --dry-run
