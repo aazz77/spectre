@@ -30,7 +30,7 @@ jobs:
             exit 1
           fi
       
-      -run: cargo check
+      - run: cargo check
 
       - name: Dry run
         run: cargo publish --dry-run
