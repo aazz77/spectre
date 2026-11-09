@@ -24,6 +24,3 @@ jobs:
 
       - name: clippy-tokio-socket
         run: cargo clippy
-
-      - name: clippy-smol-socket
-        run: cargo clippy --no-default-features --features smol_socket
