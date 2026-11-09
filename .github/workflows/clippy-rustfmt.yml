@@ -2,6 +2,8 @@ name: Rustfmt and clippy check
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main, master]
 
 jobs:
   rustfmt_clippy:
